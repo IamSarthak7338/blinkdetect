@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import dlib
 from scipy.spatial import distance as dist
 import os
-import json
+
 def home(request):
     return render(request,'index.html');
 
