@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    #stream,#capture{
+    display:none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="button-group">
+  <button id="btn-start" type="button" class="button">Start Streaming</button>
+
+</div>
+
+<!-- Video Element & Canvas -->
+<div class="play-area">
+  <div class="play-area-sub">
+    <video id="stream" width="320" height="240"></video>
+  </div>
+  <div class="play-area-sub">
+    <canvas id="capture" width="320" height="240"></canvas>
+    <div id="snapshot"></div>
+  </div>
+</div>
+<img src="" id="pimg" width="500px">
+</body>
+<script>
+// The buttons to start & stop stream and to capture the image
+var btnStart = document.getElementById( "btn-start" );
+
+
+// The stream & capture
+var stream = document.getElementById( "stream" );
+var capture = document.getElementById( "capture" );
+var proimg = document.getElementById( "pimg" );
+
+// The video stream
+var cameraStream = null;
+
+// Attach listeners
+btnStart.addEventListener( "click", startStreaming );
+
+// Start Streaming
+function startStreaming() {
+
+  var mediaSupport = 'mediaDevices' in navigator;
+
+  if( mediaSupport && null == cameraStream ) {
+
+    navigator.mediaDevices.getUserMedia( { video: true } )
+    .then( function( mediaStream ) {
+
+      cameraStream = mediaStream;
+
+      stream.srcObject = mediaStream;
+
+      stream.play();
+      setInterval(captureSnapshot,100);
+    })
+    .catch( function( err ) {
+
+      console.log( "Unable to access camera: " + err );
+    });
+  }
+  else {
+
+    alert( 'Your browser does not support media devices.' );
+
+    return;
+  }
+}
+
+// Stop Streaming
+function stopStreaming() {
+
+  if( null != cameraStream ) {
+    var track = cameraStream.getTracks()[ 0 ];
+    track.stop();
+    stream.load();
+    cameraStream = null;
+  }
+}
+
+function captureSnapshot() {
+
+  if( null != cameraStream ) {
+    var ctx = capture.getContext( '2d' );
+    var img = new Image();
+    ctx.drawImage( stream, 0, 0, capture.width, capture.height );
+    img.src   = capture.toDataURL( "image/png" );
+    img.width = 240;
+    sendtoserver(img.src);
+  }
+}
+
+function sendtoserver(image) {
+var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
+
+$.ajax({
+    url: "img_from_web",
+    data: {'img':base64ImageContent},
+    type: "POST",
+    proccessData: false, // this is true by default
+    success:function(data){
+    proimg.src="data:image/png;base64,"+data["image"];
+    }
+});
+}
+
+</script>
+</html>

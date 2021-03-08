@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    body{
+    padding:0;
+    margin:0;
+    }
+    #content{
+   margin-top: 100px;
+    padding:50px;
+    width:fit-content;
+    box-shadow: rgba(199, 199, 199, 0.678) 20px 20px 50px 1px ;
+    }
+    #title{
+        color:#6B6DE3;
+        font-size: 30px;
+
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    #login-box{
+        width: 350px;
+        margin-top: 50px;
+
+    }
+    #user-box,#pass-box{
+        background-color: rgb(233, 233, 233); 
+        border-radius: 2px;
+    }
+    #username , #password{
+        height: 45px;
+        cursor: pointer;
+        border: 0;
+        background-color: rgb(233, 233, 233);
+        width:90%;
+        outline: 0;
+      
+    }
+    #check{
+        color: #6B6DE3;
+      
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    #check input{
+        border-color:#6B6DE3 ;
+        
+    }
+    #submit{
+        margin-top: 10px;
+        cursor: pointer;
+        background-color: #6B6DE3;
+        color: white;
+        height: 50px;
+        width:100%;
+        font-family: Arial, Helvetica, sans-serif;
+        border-radius: 2px;
+        border:0;
+        outline: 0;
+    }
+    #log{
+    margin-top:50px;
+    color:red;
+    font-family:arial;
+    }
+    </style>
+</head>
+<body>
+    <center>
+        <div id="content" align="center">
+            <p id="title">Login</p>
+            <div id="login-box">
+                <form method="get" action="login_check" autocomplete="off">
+                <div id="user-box">
+
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                </div>
+                <br>
+                <div id="pass-box">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                
+                </div>
+                <p id="check" align="left"><input type="checkbox"> Remember me</p>
+                            
+                <button id="submit">LOGIN</button>
+            </form>
+                <p id="log">{{log}}</p>
+            </div>
+            </div>
+    </center>
+
+
+</body>
+</html>
