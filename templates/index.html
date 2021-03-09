@@ -92,8 +92,10 @@ function captureSnapshot() {
     var ctx = capture.getContext( '2d' );
     var img = new Image();
     ctx.drawImage( stream, 0, 0, capture.width, capture.height );
+
     img.src   = capture.toDataURL( "image/png" );
     img.width = 240;
+
     sendtoserver(img.src);
   }
 }
